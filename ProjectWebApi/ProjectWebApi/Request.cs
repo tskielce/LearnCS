@@ -51,15 +51,15 @@ namespace ProjectWebApi.View
         {
             if (AreIdsCorrect())
             {
-                Numbers num = SetNumbers();
+                Numbers numbers = SetNumbers();
 
-                TextFileDataProvider textFileDataProvider = new TextFileDataProvider(num, _parameters);
+                TextFileDataProvider textFileDataProvider = new TextFileDataProvider(numbers, _parameters);
                 textFileDataProvider.SendDataToFile();
 
-                MsSqlDataProvider msSqlDataProvider = new MsSqlDataProvider(num, _parameters);
+                MsSqlDataProvider msSqlDataProvider = new MsSqlDataProvider(numbers, _parameters);
                 msSqlDataProvider.SendDataToDatabase();
 
-                return num;
+                return numbers;
             }
             return null;
         }
