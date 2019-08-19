@@ -14,11 +14,10 @@ namespace ProjectWebApi.Controllers
         {
             var parameters = Startup.parameters;
             Request request = new Request(id1, id2);
+            _ = new TextFileDataProvider(request.Numbers, parameters);
+            _ = new MsSqlDataProvider(request.Numbers, parameters);
 
-            var textFileDataProvider = new TextFileDataProvider(request.Numbers, parameters);
-            var msSqlDataProvider = new MsSqlDataProvider(request.Numbers, parameters);
-
-            return $"Wynik dodawania {request.Numbers.Ids[0]} i {request.Numbers.Ids[1]} rowna sie {request.Numbers.result}";
+            return $"Wynik dodawania {request.Numbers.Ids[0]} i {request.Numbers.Ids[1]} rowna sie {request.Numbers.addition}";
         }
 
         // POST api/Api

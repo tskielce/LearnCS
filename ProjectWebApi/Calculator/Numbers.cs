@@ -3,7 +3,7 @@
     public class Number
     {
         public double[] Ids;
-        public double? result;
+        public double? addition;
 
         public Number()
         {
@@ -12,7 +12,7 @@
         public Number(double[] ids, ICalculate calculate)
         {
             Ids = ids;
-            result = calculate.Addition();
+            addition = calculate.Addition();
         }
     }
 }

@@ -7,8 +7,8 @@ namespace Data.Providers
 {
     public class MsSqlDataProvider
     {
-        private Number Numbers;
-        private string ConnectionString;
+        private readonly Number Numbers;
+        private readonly string ConnectionString;
 
         public MsSqlDataProvider(Number numbers, Parameter parameters)
         {
@@ -37,7 +37,7 @@ namespace Data.Providers
 
         private string InserData()
         {
-            return $"INSERT INTO WebApiDb.dbo.TabCalculation (Number1, Number2, Result) VALUES ({Numbers.Ids[0].ToString()},{Numbers.Ids[1].ToString()},{Numbers.result.ToString()})";
+            return $"INSERT INTO WebApiDb.dbo.TabCalculation (Number1, Number2, Result) VALUES ({Numbers.Ids[0].ToString()},{Numbers.Ids[1].ToString()},{Numbers.addition.ToString()})";
         }
 
         private string SetEnvironemnt()

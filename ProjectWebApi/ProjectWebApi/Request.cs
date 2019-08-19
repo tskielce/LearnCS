@@ -19,8 +19,7 @@ namespace ProjectWebApi.View
 
         private int ConvertToInt(string id)
         {
-            int number = 0;
-            return (int.TryParse(id, out number)) ? int.Parse(id) : number;
+            return (int.TryParse(id, out _)) ? int.Parse(id) : 0;
         }
     }
 }

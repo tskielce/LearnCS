@@ -1,14 +1,14 @@
-﻿using Calculator;
+﻿using System.IO;
+using Calculator;
 using Common;
-using System.IO;
 
 namespace Data.Providers
 {
     public class TextFileDataProvider
     {
-        private string PathFile;
-        private Parameter Parameters;
-        private Number Numbers;
+        private readonly string PathFile;
+        private readonly Parameter Parameters;
+        private readonly Number Numbers;
 
         public TextFileDataProvider(Number Numbers, Parameter Parameters)
         {
@@ -42,7 +42,7 @@ namespace Data.Providers
         {
             using (StreamWriter sw = File.AppendText(PathFile))
             {
-                sw.WriteLine($"{Numbers.Ids[0]}\t{Numbers.Ids[1]}\t{Numbers.result}");
+                sw.WriteLine($"{Numbers.Ids[0]}\t{Numbers.Ids[1]}\t{Numbers.addition}");
             }
         }
     }
