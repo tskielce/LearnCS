@@ -1,67 +1,26 @@
-﻿using Common;
-using Calculator;
-using Data.Providers;
+﻿using Calculator;
 
 namespace ProjectWebApi.View
 {
     public class Request
     {
-        private string _id1;
-        private string _id2;
-        private Numbers _numbers;
-        ICalculate _calculate;
-        private Parameters _parameters;
+        private readonly double[] Ids = new double[2];
+        public Number Numbers;
 
-        public Request(string id1, string id2, Parameters parameters)
+        public Request(string id1, string id2)
         {
-            _id1 = id1;
-            _id2 = id2;
-            _parameters = parameters;
+            Ids[0] = ConvertToInt(id1);
+            Ids[1] = ConvertToInt(id2);
+
+            var calculate = new Calculate(Ids);
+
+            Numbers = new Number(Ids,calculate);
         }
 
-        public Numbers SetNumbers()
+        private int ConvertToInt(string id)
         {
-            _numbers = new Numbers();
-            _numbers.number1 = SetId(_id1);
-            _numbers.number2 = SetId(_id2);
-            _calculate = new Calculate(_numbers);
-            _numbers.result = _calculate.Addition();
-
-            return _numbers;
-        }
-
-        private bool AreIdsCorrect()
-        {
-            var ifId1 = HelperStaticMethods.CanVariableParseToInt(_id1);
-            var ifId2 = HelperStaticMethods.CanVariableParseToInt(_id2);
-
-            if (ifId1 && ifId2)
-            {
-                return true;
-            }
-            return false;
-        }
-        
-        private int SetId(string id)
-        {
-            return int.Parse(id);
-        }
-
-        public Numbers CalculateResult()
-        {
-            if (AreIdsCorrect())
-            {
-                Numbers numbers = SetNumbers();
-
-                TextFileDataProvider textFileDataProvider = new TextFileDataProvider(numbers, _parameters);
-                textFileDataProvider.SendDataToFile();
-
-                MsSqlDataProvider msSqlDataProvider = new MsSqlDataProvider(numbers, _parameters);
-                msSqlDataProvider.SendDataToDatabase();
-
-                return numbers;
-            }
-            return null;
+            int number = 0;
+            return (int.TryParse(id, out number)) ? int.Parse(id) : number;
         }
     }
 }

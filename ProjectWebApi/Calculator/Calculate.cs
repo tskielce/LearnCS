@@ -2,45 +2,85 @@
 {
     public class Calculate : ICalculate
     {
-        Numbers _numbers;
-        public Calculate(Numbers numbers)
+        public double[] Ids { get; set; }
+        public Calculate(double[] ids)
         {
-            _numbers = numbers;
+            Ids = ids;
         }
         /// <summary>
         /// Dodawanie
         /// </summary>
         /// <returns></returns>
-        public double Addition()
+        public double? Addition()
         {
-            return _numbers.number1 + _numbers.number2;
+            double? result = null;
+
+            if (Ids.Length > 0)
+            {
+                result = Ids[0];
+                for (int i = 1; i < Ids.Length; i++)
+                {
+                    result += Ids[i];
+                }
+            }
+            return result;
         }
 
         /// <summary>
         /// Dzielenie
         /// </summary>
         /// <returns></returns>
-        public double Division()
+        public double? Division()
         {
-            return _numbers.number1 / _numbers.number2;
+            double? result = null;
+
+            if (Ids.Length > 0)
+            {
+                result = Ids[0];
+                for (int i = 1; i < Ids.Length; i++)
+                {
+                    result /= Ids[i];
+                }
+            }
+            return result;
         }
 
         /// <summary>
         /// Mnozenie
         /// </summary>
         /// <returns></returns>
-        public double Multiplication()
+        public double? Multiplication()
         {
-            return _numbers.number1 * _numbers.number2;
+            double? result = null;
+
+            if (Ids.Length > 0)
+            {
+                result = Ids[0];
+                for (int i = 1; i < Ids.Length; i++)
+                {
+                    result *= Ids[i];
+                }
+            }
+            return result;
         }
 
         /// <summary>
         /// Odejmowanie
         /// </summary>
         /// <returns></returns>
-        public double Subtraction()
+        public double? Subtraction()
         {
-            return _numbers.number1 - _numbers.number2;
+            double? result = null;
+
+            if (Ids.Length > 0)
+            {
+                result = Ids[0];
+                for (int i = 1; i < Ids.Length; i++)
+                {
+                    result *= Ids[i];
+                }
+            }
+            return result;
         }
     }
 }

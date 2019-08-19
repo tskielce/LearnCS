@@ -1,4 +1,4 @@
-﻿using Calculator;
+﻿using Data.Providers;
 using Microsoft.AspNetCore.Mvc;
 using ProjectWebApi.View;
 
@@ -8,16 +8,17 @@ namespace ProjectWebApi.Controllers
     [ApiController]
     public class ApiController : ControllerBase
     {
-        private Numbers _numbers;
-
         // GET api/Api
         [HttpGet("{id1}/{id2}")]
         public ActionResult<string> Get(string id1, string id2)
         {
-            Request request = new Request(id1, id2, Startup.parameters);
-            _numbers = request.CalculateResult();
+            var parameters = Startup.parameters;
+            Request request = new Request(id1, id2);
 
-            return $"Wynik dodawania {_numbers.number1} i {_numbers.number2} rowna sie {_numbers.result}";
+            var textFileDataProvider = new TextFileDataProvider(request.Numbers, parameters);
+            var msSqlDataProvider = new MsSqlDataProvider(request.Numbers, parameters);
+
+            return $"Wynik dodawania {request.Numbers.Ids[0]} i {request.Numbers.Ids[1]} rowna sie {request.Numbers.result}";
         }
 
         // POST api/Api

@@ -1,12 +1,11 @@
 ﻿namespace Common
 {
-    public class Parameters
+    public class Parameter
     {
         public string ConnectionStringMsSql { get; set; }
         public string ConnectionStringMySql { get; set; }
-        public string path { get; set; }
-        public string fileName { get; set; }
-        public enum fileType { txt, csv };
+        public string Path { get; set; }
+        public string FileName { get; set; }
     }
 }
 

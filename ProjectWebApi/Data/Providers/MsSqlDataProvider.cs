@@ -7,18 +7,20 @@ namespace Data.Providers
 {
     public class MsSqlDataProvider
     {
-        private Numbers _numbers;
-        private string _connectionString;
+        private Number Numbers;
+        private string ConnectionString;
 
-        public MsSqlDataProvider(Numbers numbers, Parameters parameters)
+        public MsSqlDataProvider(Number numbers, Parameter parameters)
         {
-            _numbers = numbers;
-            _connectionString = parameters.ConnectionStringMsSql;
+            Numbers = numbers;
+            ConnectionString = parameters.ConnectionStringMsSql;
+
+            SendDataToDatabase();
         }
 
-        public void SendDataToDatabase()
+        private void SendDataToDatabase()
         {
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
@@ -35,15 +37,12 @@ namespace Data.Providers
 
         private string InserData()
         {
-            return $"INSERT INTO WebApiDb.dbo.TabCalculation (Number1, Number2, Result, UpdateDate) VALUES ({_numbers.number1},{_numbers.number2},{_numbers.result},'{DateTime.Now.ToString("yyyy-MM-dd")}')";
+            return $"INSERT INTO WebApiDb.dbo.TabCalculation (Number1, Number2, Result) VALUES ({Numbers.Ids[0].ToString()},{Numbers.Ids[1].ToString()},{Numbers.result.ToString()})";
         }
 
         private string SetEnvironemnt()
         {
             string query = @"
-                IF DB_ID('WebApiDb') IS NULL
-                    CREATE DATABASE WebApiDb;
-                
                 IF OBJECT_ID('WebApiDb.dbo.TabCalculation') IS NULL
                     CREATE TABLE WebApiDb.dbo.TabCalculation(id INT IDENTITY(1, 1) NOT NULL, Number1 FLOAT, Number2 FLOAT, Result FLOAT, CreateDate DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, UpdateDate DATETIME NOT NULL)";
     

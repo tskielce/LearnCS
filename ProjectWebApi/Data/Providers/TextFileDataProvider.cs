@@ -1,107 +1,49 @@
 ﻿using Calculator;
 using Common;
-using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Data.Providers
 {
     public class TextFileDataProvider
     {
-        private string _path;
-        private string _pathFile;
-        private List<Numbers> _result;
-        private Numbers _numbers;
+        private string PathFile;
+        private Parameter Parameters;
+        private Number Numbers;
 
-        public TextFileDataProvider(Numbers numbers, Parameters parameters)
+        public TextFileDataProvider(Number Numbers, Parameter Parameters)
         {
-            _numbers = numbers;
-            _path = parameters.path;
-            _pathFile = $"{parameters.path}\\{parameters.fileName}.txt";
+            this.Numbers = Numbers;
+            this.Parameters = Parameters;
+            PathFile = $"{Parameters.Path}\\{Parameters.FileName}.txt";
+
+            SendDataToFile();
         }
 
-
-        public void SendDataToFile()
+        private void SendDataToFile()
         {
-            Create();
-
-            var stream = ReadData();
-
-            var listFromStream = ConvertStreamToList(stream);
-
-            var listData = AddNewElementToExistingList(listFromStream);
-
-            WriteData(listData);
+            CreateDirectoryAndFile();
+            WriteDataToFile();
         }
 
-        public void Create()
+        private void CreateDirectoryAndFile()
         {
-            if (!DoesFileExist())
+            if (!Directory.Exists(Parameters.Path))
             {
-                File.Create(_pathFile);
+                Directory.CreateDirectory(Parameters.Path);
+            }
+
+            if (!File.Exists(PathFile))
+            {
+                File.Create(PathFile);
             }
         }
 
-        private string[] ReadData()
+        public void WriteDataToFile()
         {
-            if (DoesFileExist())
+            using (StreamWriter sw = File.AppendText(PathFile))
             {
-                using (StreamReader reader = new StreamReader(_pathFile))
-                {
-                    var stream = reader.ReadToEnd().Split('\n');
-                    reader.Close();
-                    return stream;
-                }
-            }
-
-            return null;
-        }
-
-        private List<Numbers> ConvertStreamToList(string[] stream)
-        {
-            List<Numbers> listNum = new List<Numbers>();
-
-            bool streamNull = (stream[0] == "") ? true : false;
-
-            if (!streamNull)
-            {
-                foreach (var result in stream)
-                {
-                    if (result.ToString().IndexOf("\r") >= 0)
-                    {
-                        listNum.Add(new Numbers
-                        {
-                            number1 = Convert.ToInt32(result.Split(',')[0]),
-                            number2 = Convert.ToInt32(result.Split(',')[1]),
-                            result = Convert.ToInt32(result.Split(',')[2])
-                        });
-                    };
-                }
-            }
-
-            return listNum;
-        }
-
-        private List<Numbers> AddNewElementToExistingList(List<Numbers> list)
-        {
-            list.Add(new Numbers { number1 = _numbers.number1, number2 = _numbers.number2, result = _numbers.result });
-
-            return list;
-        }
-
-        public void WriteData(List<Numbers> numbers)
-        {
-            using (TextWriter tw = new StreamWriter(_pathFile))
-            {
-                foreach (var item in numbers)
-                {
-                    tw.WriteLine($"{item.number1},{item.number2},{item.result}");
-                }
-                
-                tw.Close();
+                sw.WriteLine($"{Numbers.Ids[0]}\t{Numbers.Ids[1]}\t{Numbers.result}");
             }
         }
-
-        private bool DoesFileExist() => File.Exists(_pathFile);
     }
 }

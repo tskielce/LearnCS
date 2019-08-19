@@ -2,9 +2,10 @@
 {
     public interface ICalculate
     {
-        double Addition();
-        double Subtraction();
-        double Multiplication();
-        double Division();
+        double[] Ids { get; set; }
+        double? Addition();
+        double? Subtraction();
+        double? Multiplication();
+        double? Division();
     }
 }

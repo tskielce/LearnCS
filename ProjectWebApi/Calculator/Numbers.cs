@@ -1,9 +1,18 @@
 ﻿namespace Calculator
 {
-    public class Numbers
+    public class Number
     {
-        public double number1;
-        public double number2;
-        public double result;
+        public double[] Ids;
+        public double? result;
+
+        public Number()
+        {
+        }
+
+        public Number(double[] ids, ICalculate calculate)
+        {
+            Ids = ids;
+            result = calculate.Addition();
+        }
     }
 }
